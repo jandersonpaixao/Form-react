@@ -1,25 +1,41 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import Header from "./components/Header/Header";
+import goalsImg from "../src/assets/goals.jpg";
+import { useState } from "react";
+import CourseGoalList from "./components/CourseGoalList/CourseGoalList";
+import NewGoal from "./components/NewGoal/NewGoal";
+
+export type useGoalProps = {
+  title: string;
+  description: string;
+  id: number;
+};
 
 function App() {
+  const [useGoal, setGoal] = useState<useGoalProps[]>([]);
+
+  const handleGoal = () => {
+    setGoal((prevGoal) => {
+      const newGoal: useGoalProps = {
+        id: Math.random(),
+        title: "Learn new things",
+        description: "learn new things every day",
+      };
+      return [...prevGoal, newGoal];
+    });
+  };
+
+  const handleDeleteGoal = (id: number) => {
+    setGoal((prevGoals) => prevGoals.filter((goal) => goal.id !== id));
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <main className="App">
+      <Header image={{ src: goalsImg, alt: "list of goals" }}>
+        <p>list of goals</p>
+      </Header>
+      <NewGoal />
+      <CourseGoalList goals={useGoal} onDeleteGoal={handleDeleteGoal} />
+    </main>
   );
 }
 
