@@ -13,12 +13,12 @@ export type useGoalProps = {
 function App() {
   const [useGoal, setGoal] = useState<useGoalProps[]>([]);
 
-  const handleGoal = () => {
+  const handleAddGoal = (goal: string, summary: string) => {
     setGoal((prevGoal) => {
       const newGoal: useGoalProps = {
         id: Math.random(),
-        title: "Learn new things",
-        description: "learn new things every day",
+        title: goal,
+        description: summary,
       };
       return [...prevGoal, newGoal];
     });
@@ -33,7 +33,7 @@ function App() {
       <Header image={{ src: goalsImg, alt: "list of goals" }}>
         <p>list of goals</p>
       </Header>
-      <NewGoal />
+      <NewGoal onAddGoal={handleAddGoal} />
       <CourseGoalList goals={useGoal} onDeleteGoal={handleDeleteGoal} />
     </main>
   );
